@@ -73,6 +73,7 @@ if /i %1 == use goto c_use
 if /i %1 == talk goto c_talk
 if /i %1 == go goto c_go
 if /i %1 == exit goto c_ex
+if /i %1 == help type data\help && goto:eof
 goto c_unk
 
 :c_look
@@ -118,7 +119,3 @@ goto:eof
 echo What?
 goto:eof
 ::END_PROC_COMMAND
-
-:print_help
-echo Help!
-goto:eof

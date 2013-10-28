@@ -1,0 +1,7 @@
+ look (at) [subject]   gives a description of something, or a
+                       general description of the room if there is no
+                       subject.
+           room        looks at the description of the room.
+ talk      [subject]   starts a conversation with somepony
+ go        [subject]   goes to the given room.
+ exit                  exits the game without saving.
