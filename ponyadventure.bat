@@ -16,7 +16,6 @@ set u_fluttershy_nudged=0
 
 	::set up basic character.
 :character_setup
-
 set/p name=What is your name? 
 echo Welcome to this quickie, %name%!
 set/p buffer=Hey, tell me, are you a mare or a stallion? 
@@ -78,23 +77,23 @@ goto c_unk
 
 :c_look
 setlocal
-if [%2] EQU [] type data\%location%_description & goto:eof
-if /i [%2] EQU [at] (set _subj=%3) ELSE (set _subj=%2)
+	if [%2] EQU [] type data\%location%_description & goto:eof
+	if /i [%2] EQU [at] (set _subj=%3) ELSE (set _subj=%2)
 	::aliases.
-for /f "delims=: tokens=2" %%G in ('type data\alias ^| find/i ":%_subj%:"') do if NOT [%%G]==[] set _subj=%%G
-if exist data\%location%_%_subj% type data\%location%_%_subj% & endlocal & goto:eof
+	for /f "delims=: tokens=2" %%G in ('type data\alias ^| find/i ":%_subj%:"') do if NOT [%%G]==[] set _subj=%%G
+	if exist data\%location%_%_subj% type data\%location%_%_subj% & endlocal & goto:eof
  	::if it is not a clear description, it might have a script attached to it
-if exist data\%location%_%_subj%_s.bat call data\%location%_%_subj%_s.bat & endlocal & goto:eof
+	if exist data\%location%_%_subj%_s.bat call data\%location%_%_subj%_s.bat & endlocal & goto:eof
 	::no we do not know what it is
-echo I don't know what that is, I think...
+	echo I don't know what that is, I think...
 endlocal
 goto:eof
 
 :c_use
 	::USES BATCH STUFF. NEEDS TO CHECK EVENTS.
-if exist data\u_%location%_%2 type data\u_%location%_%2 & goto:eof
-if exist data\u_%location%_%2.bat call data\u_%location%_%2.bat & goto:eof
-echo I don't think that'll work.
+	if exist data\u_%location%_%2 type data\u_%location%_%2 & goto:eof
+	if exist data\u_%location%_%2.bat call data\u_%location%_%2.bat & goto:eof
+	echo I don't think that'll work.
 goto:eof
 
 :c_talk
@@ -112,10 +111,9 @@ goto:eof
 goto:eof
 
 :c_ex
-set end=1
+	set end=1
 goto:eof
 
 :c_unk
-echo What?
+	echo What?
 goto:eof
-::END_PROC_COMMAND
