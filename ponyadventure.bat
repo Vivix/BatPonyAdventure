@@ -105,9 +105,10 @@ goto:eof
 
 :c_go
 	::Find valid locations from our standpoint.
+	::old find /i ... >nul || echo text & goto:eof -> ((find /i ... >nul )||(echo text))&(goto:eof)
 	find/i "%2" data\%location%_exits >nul || goto:eof
 	set location=%2
-	echo type look to see description of room.
+	type data\%2_description
 goto:eof
 
 :c_ex
