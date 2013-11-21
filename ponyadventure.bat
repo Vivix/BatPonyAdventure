@@ -50,7 +50,6 @@ goto game_begin
 echo(
 echo Well, welcome %name%!
 echo(
-echo(
 type data\intro
 set location=livingroom
 	::KNOWN BUG: Passing % and such can destroy the game. Don't do that.
@@ -83,23 +82,27 @@ setlocal
 	for /f "delims=: tokens=2" %%G in ('type data\alias ^| find/i ":%_subj%:"') do if NOT [%%G]==[] set _subj=%%G
 	if exist data\%location%_%_subj% type data\%location%_%_subj% & endlocal & goto:eof
  	::if it is not a clear description, it might have a script attached to it
-	if exist data\%location%_%_subj%_s.bat call data\%location%_%_subj%_s.bat & endlocal & goto:eof
+	if exist data\%location%_%_subj%.bat call data\%location%_%_subj%.bat & endlocal & goto:eof
 	::no we do not know what it is
 	echo I don't know what that is, I think...
 endlocal
 goto:eof
 
 :c_use
+	if [%2]==[the] (set _subj=%3) ELSE (set _subj=%2)
 	::USES BATCH STUFF. NEEDS TO CHECK EVENTS.
-	if exist data\u_%location%_%2 type data\u_%location%_%2 & goto:eof
-	if exist data\u_%location%_%2.bat call data\u_%location%_%2.bat & goto:eof
+	for /f "delims=: tokens=2" %%G in ('type data\alias ^| find/i ":%_subj%:"') do if NOT [%%G]==[] set _subj=%%G
+	if exist data\u_%location%_%_subj% type data\u_%location%_%_subj% & goto:eof
+	if exist data\u_%location%_%_subj%.bat call data\u_%location%_%_subj%.bat & goto:eof
 	echo I don't think that'll work.
 goto:eof
 
 :c_talk
-	::USES BATCH STUFF. NEEDS TO KNOW EVENTS, AND USE REPLACEMENTS. AS WELL AS HAVE LOGIC FOR TALKING.
-	if exist data\conv\c_%location%_%2 type data\conv\c_%location%_%2 & goto:eof
-	if exist data\conv\c_%location%_%2.bat call data\conv\c_%location%_%2.bat & goto:eof
+	if [%2]==[to] (set _subj=%3) ELSE (set _subj=%2)
+	::if you want alias for things to talk to, add the alias line here.
+	::QUIT EARLY ALWAYS. BAT FIRST IN THIS CASE.
+	if exist data\conv\c_%location%_%_subj%.bat call data\conv\c_%location%_%_subj%.bat & goto:eof
+	if exist data\conv\c_%location%_%_subj% type data\conv\c_%location%_%_subj% & goto:eof
 	echo I don't see anyone with that name here.
 goto:eof
 
